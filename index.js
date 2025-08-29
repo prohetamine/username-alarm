@@ -56,5 +56,5 @@ const loop = async () => {
     }
 }
 
-setInterval(loop, 60000 * 5)
+setInterval(loop, 60000 * 1)
 loop()
