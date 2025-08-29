@@ -1,6 +1,10 @@
 import nfetch from 'node-fetch'
 import { parse } from 'node-html-parser'
 import { LocalStorage } from 'node-localstorage'
+import sleep from 'sleep-promise'
+import { Telegraf } from 'telegraf'
+
+const bot = new Telegraf('8094533054:AAG7eGjNE9oPr-HZOLtqoL-3PFMUhpsq_ms')
 
 const localStorage = new LocalStorage('./localstorage')
 
@@ -39,6 +43,17 @@ const loop = async () => {
     const data = await requestFragment()
 
     console.log(data)
+
+    for (let x = 0; x < data.length; x++) {
+        const { name, ton, time } = data[x]
+        await bot.telegram.sendMessage(-1002921292662, `@${name} — ${ton} ton \\[${time}\\] [link](https://fragment\\.com/username/${name})`, {
+            parse_mode: 'MarkdownV2', 
+            link_preview_options: {
+                is_disabled: true
+            }
+        })
+        await sleep(2000)
+    }
 }
 
 setInterval(loop, 60000 * 5)
