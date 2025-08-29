@@ -42,16 +42,16 @@ const requestFragment = async () => {
 const loop = async () => {
     const data = await requestFragment()
 
-    console.log(data)
-
     for (let x = 0; x < data.length; x++) {
         const { name, ton, time } = data[x]
-        await bot.telegram.sendMessage(-1002921292662, `@${name} — ${ton} ton \\[${time}\\] [link](https://fragment\\.com/username/${name})`, {
-            parse_mode: 'MarkdownV2', 
-            link_preview_options: {
-                is_disabled: true
-            }
-        })
+        try {
+            await bot.telegram.sendMessage(-1002921292662, `@${name} — ${ton} ton \\[${time}\\] [link](https://fragment\\.com/username/${name})`, {
+                parse_mode: 'MarkdownV2', 
+                link_preview_options: {
+                    is_disabled: true
+                }
+            })
+        } catch (e) {}
         await sleep(2000)
     }
 }
